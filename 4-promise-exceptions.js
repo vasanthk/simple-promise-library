@@ -1,6 +1,6 @@
 /**
- * Flattened Promise chaining
- * - resolve() “flattens” parameter `value` if it is a promise (the state of`this` becomes locked in on `value`)
+ * Handle Exceptions in Flattened Promises
+ * - Turn exceptions in user code into rejections.
  */
 
 function FlattenedChainingPromise() {
@@ -13,16 +13,21 @@ function FlattenedChainingPromise() {
 }
 
 FlattenedChainingPromise.prototype.then = function (onFulfilled, onRejected) {
-  var returnValue = new FlattenedChainingPromise();
+  var returnValue = new FlattenedChainingPromise();  // [new]
   var self = this;
 
   var fulfilledTask;
   if (typeof onFulfilled === 'function') {
     fulfilledTask = function () {
-      var r = onFulfilled(self.promiseResult);
-      returnValue.resolve(r);
+      try { // [new]
+        var r = onFulfilled(self.promiseResult);
+        returnValue.resolve(r);
+      } catch (e) {
+        returnValue.reject(e);
+      }
+
     };
-  } else {  // [new]
+  } else {
     fulfilledTask = function () {
       returnValue.resolve(self.promiseResult);
     };
@@ -31,9 +36,14 @@ FlattenedChainingPromise.prototype.then = function (onFulfilled, onRejected) {
   var rejectedTask;
   if (typeof onRejected === 'function') {
     rejectedTask = function () {
-      var r = onRejected(self.promiseResult);
-      /// The result of onRejected is used to resolve (not reject!) returnValue
-      returnValue.resolve(r);  // Note: We resolve it!
+      try { // [new]
+        var r = onRejected(self.promiseResult);
+        /// The result of onRejected is used to resolve (not reject!) returnValue
+        returnValue.resolve(r);  // [new]  - Note: We resolve it!
+      } catch (e) {
+        returnValue.reject(e);
+      }
+
     }
   } else {
     rejectedTask = function () {
