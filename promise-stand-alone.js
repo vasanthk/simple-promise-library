@@ -4,14 +4,14 @@
  * - You can only resolve or reject it once
  */
 
-function DemoPromise() {
+function StandAlonePromise() {
   this.fulfillReactions = [];
   this.rejectReactions = [];
   this.promiseResult = undefined;
   this.promiseState = 'pending';
 }
 
-DemoPromise.prototype.then = function (onFulfilled, onRejected) {
+StandAlonePromise.prototype.then = function (onFulfilled, onRejected) {
   var self = this;
 
   var fulfilledTask = function () {
@@ -36,7 +36,7 @@ DemoPromise.prototype.then = function (onFulfilled, onRejected) {
   }
 };
 
-DemoPromise.prototype.resolve = function (value) {
+StandAlonePromise.prototype.resolve = function (value) {
   if (this.promiseState !== 'pending') {
     // Makes sure the promise is resolved only once
     return;
@@ -48,7 +48,7 @@ DemoPromise.prototype.resolve = function (value) {
   return this;  // Returning 'this' enables chaining.
 };
 
-DemoPromise.prototype.reject = function (error) {
+StandAlonePromise.prototype.reject = function (error) {
   if (this.promiseState !== 'pending') {
     // Makes sure the promise is resolved only once
     return;
@@ -60,7 +60,7 @@ DemoPromise.prototype.reject = function (error) {
   return this;  // Returning 'this' enables chaining.
 };
 
-DemoPromise.prototype._clearAndEnqueueReactions = function (reactions) {
+StandAlonePromise.prototype._clearAndEnqueueReactions = function (reactions) {
   this.fulfillReactions = undefined;
   this.rejectReactions = undefined;
   reactions.map(addToTaskQueue);
@@ -69,3 +69,13 @@ DemoPromise.prototype._clearAndEnqueueReactions = function (reactions) {
 function addToTaskQueue(taks) {
   setTimeout(task, 0);
 }
+
+/**
+ *  USAGE
+ */
+
+var pr = new StandAlonePromise();
+pr.resolve('abc');
+pr.then(function (val) {
+  console.log(val); // abc
+});
