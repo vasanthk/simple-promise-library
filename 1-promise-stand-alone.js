@@ -43,8 +43,8 @@ StandAlonePromise.prototype.resolve = function (value) {
   }
 
   this.promiseState = 'fulfilled';
-  this.promiseResult = value;
-  this._clearAndEnqueueReactions(this.fulfillReactions);
+  this.promiseResult = value; // result is cached in promiseResult
+  this._clearAndEnqueueReactions(this.fulfillReactions);  // Enqueued fulfillment reactions are now triggered.
   return this;  // Returning 'this' enables chaining.
 };
 
@@ -55,8 +55,8 @@ StandAlonePromise.prototype.reject = function (error) {
   }
 
   this.promiseState = 'rejected';
-  this.promiseResult = error;
-  this._clearAndEnqueueReactions(this.rejectReactions);
+  this.promiseResult = error; // error is cached in promiseResult
+  this._clearAndEnqueueReactions(this.rejectReactions); // Enqueued fulfillment reactions are now triggered.
   return this;  // Returning 'this' enables chaining.
 };
 
