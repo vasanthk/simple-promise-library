@@ -66,7 +66,7 @@ StandAlonePromise.prototype._clearAndEnqueueReactions = function (reactions) {
   reactions.map(addToTaskQueue);
 };
 
-function addToTaskQueue(taks) {
+function addToTaskQueue(task) {
   setTimeout(task, 0);
 }
 
