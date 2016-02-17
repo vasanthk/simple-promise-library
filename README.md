@@ -1,6 +1,9 @@
 # Simple promise library
 A simple implementation of a promise library.
 
+This is from promises explained by Axel Rauschmayer in his article [here](http://www.2ality.com/2014/10/es6-promises-api.html)
+Credit for [diagram](http://www.2ality.com/2014/10/es6-promises-api.html) and [demo code](https://github.com/rauschma/demo_promise) goes to him.
+
 ### Promise: Stand-alone
 ![Promise: Stand-alone](http://1.bp.blogspot.com/-YtdGXGH__gk/VDEiTAXcqtI/AAAAAAAAA3s/3IwMMkVJSps/s1600/promise1_simple.jpg)
 
